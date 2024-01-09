@@ -1,0 +1,10 @@
+# Environments
+.venv
+venv/
+ENV/
+
+# Distribution / packaging
+.Python
+
+# Django stuff:
+staticfiles/

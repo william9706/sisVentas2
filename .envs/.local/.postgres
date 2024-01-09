@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=sisventas
+POSTGRES_USER=tueOSgofnKvggeVmrHCoVPMPgMhlMqbq
+POSTGRES_PASSWORD=o8YjKg38fJOhM939h3Lptv9PQouZUSA4xFpyHHNaPo1uZ6s4ArFiGc5C1TqYrV8D
