@@ -8,3 +8,5 @@ ENV/
 
 # Django stuff:
 staticfiles/
+
+*.DS_Store
