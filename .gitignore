@@ -10,3 +10,4 @@ ENV/
 staticfiles/
 
 *.DS_Store
+__pycache__/
