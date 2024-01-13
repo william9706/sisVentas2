@@ -11,3 +11,9 @@ staticfiles/
 
 *.DS_Store
 __pycache__/
+
+
+### Project template
+.env
+.envs/*
+!.envs/.local/
