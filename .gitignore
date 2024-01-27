@@ -10,7 +10,7 @@ ENV/
 staticfiles/
 
 *.DS_Store
-__pycache__/
+__pycache__
 
 
 ### Project template
