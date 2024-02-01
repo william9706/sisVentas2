@@ -1,4 +1,4 @@
-name: CONTINUOS INTEGRATION
+name: CONTINUOUS INTEGRATION
 
 on:
   pull_request:
