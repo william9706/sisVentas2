@@ -17,18 +17,11 @@ jobs:
       - name: Checkout Code Repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.9"
-          cache: pip
-          cache-dependency-path: |
-            requirements.txt
+      - name: Build the Stack
+        run:  docker-compose -f local.yml build
 
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+      - name: Run DB Migrations
+        run:  docker-compose -f local.yml run --rm django python manage.py migrate
 
       - name: estilos
         run: black --check .
@@ -38,12 +31,6 @@ jobs:
 
       - name: revisión de resaltado
         run: flake8
-
-      - name: Build the Stack
-        run:  docker-compose -f local.yml build
-
-      - name: Run DB Migrations
-        run:  docker-compose -f local.yml run --rm django python manage.py migrate
 
       - name: Pruebas unitarias
         run:  docker-compose -f local.yml run django pytest
