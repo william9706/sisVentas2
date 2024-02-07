@@ -5,7 +5,7 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-        <h3>{% translate "Listado de Articulos" %} <a href=""><button class="btn btn-dark">Nuevo</button></a>
+        <h3>{% translate "Listado de Articulos" %} <a href="{% url "articulo:crear_articulo" %}"><button class="btn btn-dark">Nuevo</button></a>
         </h3>
           {% include "articulo/search.html" %}
         </div>
@@ -42,8 +42,8 @@
                           </span>
                         </td>
                       <td class="align-middle text-center">
-                        <a href="" class="btn btn-dark">Editar</a>
-                        <a href="" class="btn bg-gradient-primary" data-target="" data-toggle="modal" >Eliminar</a>
+                        <a href="{% url "articulo:actualizar_articulo" articulo.pk %}" class="btn btn-dark">Editar</a>
+                        <a href="{% url "articulo:eliminar_articulo" articulo.pk %}" class="btn bg-gradient-primary" data-target="" data-toggle="modal" >Eliminar</a>
                       </td>
                     </tr>
                   {% endfor %}
