@@ -20,3 +20,4 @@ django-crispy-forms==2.1
 crispy-bootstrap5==2023.10
 pylint-django==2.5.5
 pylint-celery==0.3
+mypy==1.7.1

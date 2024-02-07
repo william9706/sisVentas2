@@ -39,3 +39,47 @@ def test_articulo_create_view(articulo: Articulo, categoria: Categoria):
     assert response.status_code == 302
     assert articulo.nombre == "prueba"
     assert articulo.descripcion == "Una descripcion de prueba"
+
+
+def test_articulo_update_view(articulo: Articulo, categoria: Categoria):
+    """
+    Test para probar que se pueda actualizar un articulo correctamente.
+    """
+    client = Client()
+    articulo.codigo = "10234566"
+    articulo.descripcion = "Prueba de una descripcion"
+    articulo.nombre = "Esto es un articulo"
+    articulo.stock = 20
+    articulo.save()
+    data = {
+        "categoria": categoria.id,
+        "codigo": "001",
+        "nombre": "prueba",
+        "stock": 10,
+        "descripcion": "Una descripcion de prueba",
+        "imagen": articulo.imagen,
+    }
+    response = client.post(
+        reverse("articulo:actualizar_articulo", kwargs={"pk": articulo.pk}), data=data
+    )
+    articulo = Articulo.objects.get(id=articulo.pk)
+    message = list(get_messages(response.wsgi_request))
+    assert str(message[0]) == "Se ha actualizado el articulo correctamente."
+    assert response.status_code == 302
+    assert articulo.nombre == "prueba"
+    assert articulo.descripcion == "Una descripcion de prueba"
+
+
+def test_articulo_delete_view(articulo: Articulo):
+    """
+    Test para probar que se pueda eliminar un articulo correctamente.
+    """
+    client = Client()
+    response = client.post(
+        reverse("articulo:eliminar_articulo", kwargs={"pk": articulo.pk})
+    )
+    message = list(get_messages(response.wsgi_request))
+    assert not Articulo.objects.filter(id=articulo.pk).exists()
+    assert response.status_code == 302
+    assert response.url == reverse("articulo:listar_articulos")
+    assert str(message[0]) == "Se ha eliminado el articulo correctamente."

@@ -1,8 +1,7 @@
 import pytest
 
 from sisVentas.articulo.models import Articulo, Categoria
-from sisVentas.articulo.tests.factories import (ArticuloFactory,
-                                                CategoriaFactory)
+from sisVentas.articulo.tests.factories import ArticuloFactory, CategoriaFactory
 
 
 @pytest.fixture

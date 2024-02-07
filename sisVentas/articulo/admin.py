@@ -4,14 +4,14 @@ from sisVentas.articulo.models import Articulo, Categoria
 
 
 @admin.register(Categoria)
-class Categoria(admin.ModelAdmin):
+class CategoriaAdmin(admin.ModelAdmin):
     """
     Admin for model Admin.
     """
 
 
 @admin.register(Articulo)
-class Articulo(admin.ModelAdmin):
+class ArticuloAdmin(admin.ModelAdmin):
     """
     Admin for model Admin.
     """

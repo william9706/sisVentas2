@@ -1,8 +1,12 @@
 from django.urls import path
 
-from sisVentas.articulo.views import (ArticuloCreateView, ArticuloDeleteView,
-                                      ArticuloUpdateView, ListaArticulos,
-                                      vista_index)
+from sisVentas.articulo.views import (
+    ArticuloCreateView,
+    ArticuloDeleteView,
+    ArticuloUpdateView,
+    ListaArticulos,
+    vista_index,
+)
 
 app_name = "articulo"
 urlpatterns = [
