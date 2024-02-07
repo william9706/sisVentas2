@@ -28,10 +28,9 @@ class Articulo(TimeStampedModel):
     Article model for managing article data.
     """
 
-    class EstadoFactura(models.IntegerChoices):
-        ERROR: Tuple[int, Sequence[str]] = 1, _("Error en la factura")
-        PRESENTADA: Tuple[int, Sequence[str]] = 2, _("Factura radicada")
-        BORRADOR: Tuple[int, Sequence[str]] = 3, _("Factura sin radicar")
+    class EstadoArticulo(models.IntegerChoices):
+        ACTIVO: Tuple[int, Sequence[str]] = 2, _("Activo")
+        INACTIVO: Tuple[int, Sequence[str]] = 3, _("Inactivo")
 
     categoria = models.ForeignKey(
         Categoria,
@@ -66,8 +65,8 @@ class Articulo(TimeStampedModel):
     imagen = models.ImageField(upload_to="media/articulos", blank=True, null=True)
     estado = models.PositiveSmallIntegerField(
         _("Estado del articulo"),
-        choices=EstadoFactura.choices,
-        default=EstadoFactura.BORRADOR,
+        choices=EstadoArticulo.choices,
+        default=EstadoArticulo.ACTIVO,
     )
 
     def __str__(self):

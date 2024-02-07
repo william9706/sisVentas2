@@ -1,5 +1,5 @@
 from factory import Faker, SubFactory
-from factory.django import DjangoModelFactory
+from factory.django import DjangoModelFactory, ImageField
 
 from sisVentas.articulo.models import Articulo, Categoria
 
@@ -23,6 +23,14 @@ class ArticuloFactory(DjangoModelFactory):
     """
 
     categoria = SubFactory(CategoriaFactory)
+    codigo = Faker("numerify")
+    nombre = Faker("name_nonbinary")
+    stock = Faker("numerify", text="####")
+    descripcion = Faker("paragraph", nb_sentences=1)
+    imagen = ImageField(color="red")
+    estado = Faker(
+        "random_element", elements=[x[0] for x in Articulo.EstadoArticulo.choices]
+    )
 
     class Meta:
         model = Articulo
