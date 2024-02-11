@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "sisVentas.articulo",
+    "sisVentas.core",
     # third party apps
     "crispy_forms",
     "crispy_bootstrap5",
