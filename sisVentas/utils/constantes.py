@@ -14,3 +14,9 @@ class TipoDocumento(models.IntegerChoices):
     CC: Tuple[int, Sequence[str]] = 1, _("Cédula de ciudadanía")
     TI: Tuple[int, Sequence[str]] = 2, _("Tarjeta de idetidad")
     CE: Tuple[int, Sequence[str]] = 3, _("Cédula extranjería")
+
+
+class TipoComprobante(models.IntegerChoices):
+    BOLETA: Tuple[int, Sequence[str]] = 1, _("Boleta")
+    COMPROBANTE: Tuple[int, Sequence[str]] = 2, _("Comprobante")
+    TICKET: Tuple[int, Sequence[str]] = 3, _("Ticket")
