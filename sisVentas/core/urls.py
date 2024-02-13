@@ -1,4 +1,8 @@
-from django.contrib import admin
-from django.urls import include, path
+from django.urls import path
 
-urlpatterns = []
+from sisVentas.core.views import PerfilPersonaListView
+
+app_name = "persona"
+urlpatterns = [
+    path("listar-personas/", PerfilPersonaListView.as_view(), name="listar_personas")
+]
