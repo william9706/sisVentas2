@@ -11,7 +11,7 @@ class PerfilPersona(TimeStampedModel):
     relacionados con el usurio.
     """
 
-    tipo_persona = models.CharField(
+    tipo_persona = models.PositiveSmallIntegerField(
         _("Tiopo de persona"),
         choices=TipoPerfilPersona.choices,
         default=TipoPerfilPersona.CLIENTE,
@@ -19,7 +19,7 @@ class PerfilPersona(TimeStampedModel):
     nombre_persona = models.CharField(
         _("Nombre de la persona"), max_length=100, null=False, blank=False
     )
-    tipo_documento = models.CharField(
+    tipo_documento = models.PositiveSmallIntegerField(
         _("Tipo de documento"),
         choices=TipoDocumento.choices,
         default=TipoDocumento.CC,
