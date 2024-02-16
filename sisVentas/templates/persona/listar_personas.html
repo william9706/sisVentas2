@@ -35,14 +35,14 @@
                       <td class="align-middle text-center"><span>{{ persona.id }}</span></td>
                       <td class="align-middle text-center"><span>{{ persona.nombre_persona }}</span></td>
                       <td class="align-middle text-center"><span>{{ persona.get_tipo_persona_display }}</span></td>
-                      <td class="align-middle text-center"><span>{{ persona.tipo_documento }}</span></td>
-                      <td class="align-middle text-center"><img src='{{ persona.numero_documento }}'></td>
-                      <td class="align-middle text-center"><img src='{{ persona.direccion }}'></td>
-                      <td class="align-middle text-center"><img src='{{ persona.telefono }}'></td>
-                      <td class="align-middle text-center"><img src='{{ persona.email }}'></td>
+                      <td class="align-middle text-center"><span>{{ persona.get_tipo_documento_display }}</span></td>
+                      <td class="align-middle text-center"><span>{{ persona.numero_docuento }}</span></td>
+                      <td class="align-middle text-center"><span>{{ persona.direccion }}</span></td>
+                      <td class="align-middle text-center"><span>{{ persona.telefono }}</span></td>
+                      <td class="align-middle text-center"><span>{{ persona.email }}</span></td>
                       <td class="align-middle text-center">
-                        <a href="{% url "persona:actualizar_persona" articulo.pk %}" class="btn btn-dark">Editar</a>
-                        <a href="{% url "persona:eliminar_persona" articulo.pk %}" class="btn bg-gradient-primary" data-target="" data-toggle="modal" >Eliminar</a>
+                        <a href="{% url "persona:actualizar_persona" persona.pk %}" class="btn btn-dark">Editar</a>
+                        <a href="{% url "persona:eliminar_persona" persona.pk %}" class="btn bg-gradient-primary" data-target="" data-toggle="modal" >Eliminar</a>
                       </td>
                     </tr>
                   {% endfor %}

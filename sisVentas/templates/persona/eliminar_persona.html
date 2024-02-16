@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% load static i18n %}
+{% load static i18n crispy_forms_tags %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-lg-8 col-md-10 col-12 mx-auto">
+            <div class="card z-index-0 fadeIn3 fadeInBottom px-1 py-4">
+                <div class="card-body text-center">
+                    <h3>{% translate 'Eliminar Persona' %}</h3>
+                    <p>{% translate "¿Estás seguro de que deseas eliminar la persona?" %}</p>
+                    <button type="submit" class="btn btn-danger">{% translate "Eliminar" %}</button>
+                    <a href="javascript:history.go(-1)" class="btn btn-secondary">{% translate "Cancelar" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock content %}

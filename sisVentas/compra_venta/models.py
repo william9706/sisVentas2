@@ -55,6 +55,22 @@ class Ingreso(TimeStampedModel):
         null=False,
         blank=False,
     )
+    precio_compra = models.DecimalField(
+        _("Precio de compra"),
+        null=False,
+        blank=False,
+        decimal_places=2,
+        max_digits=12,
+        default=0,
+    )
+    precio_venta = models.DecimalField(
+        _("Precio de venta"),
+        null=False,
+        blank=False,
+        decimal_places=2,
+        max_digits=12,
+        default=0,
+    )
     estado = models.PositiveBigIntegerField(
         _("Estado del ingreso"),
         choices=EstadoImpuesto.choices,
@@ -113,6 +129,22 @@ class Venta(TimeStampedModel):
         _("Impuesto de la venta"),
         null=False,
         blank=False,
+    )
+    precio_venta = models.DecimalField(
+        _("Precio de venta"),
+        null=False,
+        blank=False,
+        decimal_places=2,
+        max_digits=12,
+        default=0,
+    )
+    descuento = models.DecimalField(
+        _("Descuento de la venta"),
+        null=True,
+        blank=True,
+        decimal_places=2,
+        max_digits=12,
+        default=0,
     )
     estado = models.PositiveBigIntegerField(
         _("Estado de la venta"),
