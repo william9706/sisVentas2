@@ -1,13 +1,12 @@
 import pytest
 
 from sisVentas.core.forms import PerfilPersonaForm
-from sisVentas.core.models import PerfilPersona
 from sisVentas.utils.constantes import TipoDocumento, TipoPerfilPersona
 
 pytestmark = pytest.mark.django_db
 
 
-def test_perfil_persona_form(perfil_persona: PerfilPersona):
+def test_perfil_persona_form():
     """
     Test para probar el correcto funcionamiento del
     formulario PerfilPersona.
