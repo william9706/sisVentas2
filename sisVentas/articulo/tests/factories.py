@@ -23,7 +23,7 @@ class ArticuloFactory(DjangoModelFactory):
     """
 
     categoria = SubFactory(CategoriaFactory)
-    codigo = Faker("numerify")
+    codigo = Faker("numerify", text="$$$")
     nombre = Faker("name_nonbinary")
     stock = Faker("numerify", text="####")
     descripcion = Faker("paragraph", nb_sentences=1)
