@@ -26,14 +26,13 @@ class Ingreso(TimeStampedModel):
         null=False,
         blank=False,
     )
-
     articulos = models.ManyToManyField(
         Articulo,
         verbose_name=_("Articulos"),
-        related_name="ingreso_articulos",
+        through="DetalleDeIngreso",
     )
 
-    tipo_comprobante = models.CharField(
+    tipo_comprobante = models.SmallIntegerField(
         _("Tipo de compronbante"),
         choices=TipoComprobante.choices,
         default=TipoComprobante.BOLETA,
@@ -55,6 +54,60 @@ class Ingreso(TimeStampedModel):
         null=False,
         blank=False,
     )
+    estado = models.PositiveBigIntegerField(
+        _("Estado del ingreso"),
+        choices=EstadoImpuesto.choices,
+        default=EstadoImpuesto.ACTIVO,
+    )
+
+    def __str__(self):
+        return self.serie_comprobante
+
+    class Meta:
+        verbose_name = _("Ingreso")
+        verbose_name_plural = _("Ingresos")
+
+    def _calcular_total_ingreso(self):
+        """
+        Metodo privado para calcular el total
+        de igresos.
+        """
+        return sum(
+            detalle_ingreso.obtener_total_compra_articulos
+            for detalle_ingreso in self.detalledeingreso_set.all()
+        )
+
+    @property
+    def obtener_total_ingresos(self):
+        """
+        Propiedad para obtener la cantidad total de ingresos.
+        """
+        return self._calcular_total_ingreso()
+
+
+class DetalleDeIngreso(models.Model):
+    """
+    Modelo detalle ingreso para relacion many to many
+    entre ingreso y articulo.
+    """
+
+    articulos = models.ForeignKey(
+        Articulo,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+    )
+    ingresos = models.ForeignKey(
+        Ingreso,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+    )
+    cantidad = models.IntegerField(
+        _("Cantidad"),
+        null=False,
+        blank=False,
+    )
     precio_compra = models.DecimalField(
         _("Precio de compra"),
         null=False,
@@ -71,18 +124,21 @@ class Ingreso(TimeStampedModel):
         max_digits=12,
         default=0,
     )
-    estado = models.PositiveBigIntegerField(
-        _("Estado del ingreso"),
-        choices=EstadoImpuesto.choices,
-        default=EstadoImpuesto.ACTIVO,
-    )
 
-    def __str__(self):
-        return self.serie_comprobante
+    def _calcular_total_compra_articulos(self):
+        """
+        Metodo privado para calcular el total de articulos
+        a comprar.
+        """
+        return round(self.cantidad * self.precio_compra)
+
+    @property
+    def obtener_total_compra_articulos(self):
+        return self._calcular_total_compra_articulos()
 
     class Meta:
-        verbose_name = _("Ingreso")
-        verbose_name_plural = _("Ingresos")
+        verbose_name = "Detalle de Ingreso"
+        verbose_name_plural = "Detalle de Ingresos"
 
 
 class Venta(TimeStampedModel):
@@ -105,7 +161,7 @@ class Venta(TimeStampedModel):
     articulos = models.ManyToManyField(
         Articulo,
         verbose_name=_("Articulos"),
-        related_name="venta_articulos",
+        through="DetalleDeVenta",
     )
 
     tipo_comprobante = models.CharField(
@@ -130,14 +186,6 @@ class Venta(TimeStampedModel):
         null=False,
         blank=False,
     )
-    precio_venta = models.DecimalField(
-        _("Precio de venta"),
-        null=False,
-        blank=False,
-        decimal_places=2,
-        max_digits=12,
-        default=0,
-    )
     descuento = models.DecimalField(
         _("Descuento de la venta"),
         null=True,
@@ -158,3 +206,48 @@ class Venta(TimeStampedModel):
     class Meta:
         verbose_name = _("Venta")
         verbose_name_plural = _("Ventas")
+
+
+class DetalleDeVenta(models.Model):
+    """
+    Modelo detalle venta para relacion many to many
+    entre venta y articulo.
+    """
+
+    articulos = models.ForeignKey(
+        Articulo,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+    )
+    ventas = models.ForeignKey(
+        Venta,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+    )
+    cantidad = models.IntegerField(
+        _("Cantidad"),
+        null=False,
+        blank=False,
+    )
+    precio_compra = models.DecimalField(
+        _("Precio de compra"),
+        null=False,
+        blank=False,
+        decimal_places=2,
+        max_digits=12,
+        default=0,
+    )
+    precio_venta = models.DecimalField(
+        _("Precio de venta"),
+        null=False,
+        blank=False,
+        decimal_places=2,
+        max_digits=12,
+        default=0,
+    )
+
+    class Meta:
+        verbose_name = "Detalle de Venta"
+        verbose_name_plural = "Detalle de Ventas"

@@ -1,4 +1,8 @@
-from django.contrib import admin
 from django.urls import path
 
-urlpatterns = [path("/", admin.site.urls)]
+from sisVentas.compra_venta.views import IngresoListView
+
+app_name = "compra_venta"
+urlpatterns = [
+    path("listar-ingresos/", view=IngresoListView.as_view(), name="listar_ingresos")
+]

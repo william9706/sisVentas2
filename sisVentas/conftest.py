@@ -2,6 +2,11 @@ import pytest
 
 from sisVentas.articulo.models import Articulo, Categoria
 from sisVentas.articulo.tests.factories import ArticuloFactory, CategoriaFactory
+from sisVentas.compra_venta.models import DetalleDeIngreso, Ingreso
+from sisVentas.compra_venta.tests.factories import (
+    DetalleDeIngresoFactory,
+    IngresoFactory,
+)
 from sisVentas.core.models import PerfilPersona
 from sisVentas.core.tests.factories import PerfilPersonaFactory
 
@@ -19,3 +24,13 @@ def articulo() -> Articulo:
 @pytest.fixture
 def perfil_persona() -> PerfilPersona:
     return PerfilPersonaFactory()
+
+
+@pytest.fixture
+def ingreso() -> Ingreso:
+    return IngresoFactory()
+
+
+@pytest.fixture
+def detalle_ingreso() -> DetalleDeIngreso:
+    return DetalleDeIngresoFactory()
