@@ -41,4 +41,4 @@ class ArticuloForm(forms.ModelForm):
 
     class Meta:
         model = Articulo
-        exclude = ["estado"]
+        exclude = ["estado", "precio_compra", "precio_venta"]
