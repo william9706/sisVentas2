@@ -1,5 +1,6 @@
 import json
 
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -63,7 +64,7 @@ def crear_ingreso(request):
             form.instance.ingresos = ingreso_fk
 
         detalle_ingreso_formset.save()
-
+        messages.info(request, message=_("El ingreso se ha creado correctamente."))
         return HttpResponseRedirect(reverse("compra_venta:listar_ingresos"))
 
     context = {

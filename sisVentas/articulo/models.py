@@ -12,7 +12,7 @@ class Categoria(TimeStampedModel):
     """
 
     nombre = models.CharField(_("Nombre de la categoria"), max_length=25)
-    descripcion = models.CharField(_("Descripcion de la categoria"), max_length=50)
+    descripcion = models.CharField(_("Descripcion de la categoria"), max_length=500)
     condicion = models.BooleanField(default=False)
 
     class Meta:
