@@ -51,6 +51,7 @@ class PerfilPersona(TimeStampedModel):
         null=True,
         blank=True,
     )
+    objects = models.Manager()
     perfil = PerfilPersonaManager()
 
     def __str__(self):
