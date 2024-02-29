@@ -33,8 +33,8 @@
                                 <td>{{ingreso.obtener_total_ingresos}}</td>
                                 <td>{{ingreso.get_estado_display}}</td>
                                 <td>
-                                    <a href="" class="btn btn-outline-info"><i class="fa fa-eye"></i></a>
-                                    <a href="" class="btn btn-outline-danger" data-target="" data-toggle="modal" ><i class="fa fa-times"></i></a>
+                                    <a href="{% url "compra_venta:detalle_ingreso" ingreso.pk %}" class="btn btn-outline-info"><i class="fa fa-eye"></i></a>
+                                    <a href="{% url "compra_venta:eliminar_ingreso" ingreso.pk %}" class="btn btn-outline-danger" data-target="" data-toggle="modal" ><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}

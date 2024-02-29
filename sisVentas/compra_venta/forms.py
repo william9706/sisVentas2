@@ -34,7 +34,6 @@ class IngresoForm(forms.ModelForm):
             ),
             Div(
                 Field("tipo_comprobante", css_class="select-form"),
-                "detalle_ingresos",
                 css_class="col-lg-4 col-sm-4 col-md-4 col-xs-12",
             ),
             Div(
@@ -49,6 +48,7 @@ class IngresoForm(forms.ModelForm):
                     "numero_comprobante",
                     wrapper_class="input-group my-4 input-group-static",
                 ),
+                "detalle_ingresos",
                 css_class="col-lg-4 col-sm-4 col-md-4 col-xs-12",
             ),
         )

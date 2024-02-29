@@ -1,9 +1,11 @@
 import json
 
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
-from django.views.generic import ListView
+from django.urls import reverse, reverse_lazy
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import DeleteView, DetailView, ListView
 
 from sisVentas.compra_venta.forms import (
     IngresoForm,
@@ -11,6 +13,15 @@ from sisVentas.compra_venta.forms import (
     formset_helper,
 )
 from sisVentas.compra_venta.models import DetalleDeIngreso, Ingreso
+
+
+class DetailIngreso(DetailView):
+    """
+    Vistar para ver un ingreso especifico.
+    """
+
+    model = Ingreso
+    slug_field: str = "pk"
 
 
 class IngresoListView(ListView):
@@ -67,3 +78,14 @@ def crear_ingreso(request):
         "compra_venta/ingreso/crear_ingreso.html",
         context=context,
     )
+
+
+class IngresoDeleteView(SuccessMessageMixin, DeleteView):
+    """
+    Vista para eliminar Ingreso.
+    """
+
+    model = Ingreso
+    template_name = "compra_venta/ingreso/eliminar_ingreso.html"
+    success_url = reverse_lazy("compra_venta:listar_ingresos")
+    success_message = _("Se ha eliminado el ingreso correctamente.")
