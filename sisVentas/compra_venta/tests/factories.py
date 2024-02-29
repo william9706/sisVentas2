@@ -16,8 +16,12 @@ class IngresoFactory(DjangoModelFactory):
     tipo_comprobante = Faker(
         "random_element", elements=[x[0] for x in TipoComprobante.choices]
     )
-    serie_comprobante = Faker("numerify", text="####")
-    numero_comprobante = Faker("numerify", text="####")
+    serie_comprobante = (
+        "2345434"  # TODO: buscar solucion para Faker correcto hasta 50 caracteres
+    )
+    numero_comprobante = (
+        "434555"  # TODO: buscar solucion para Faker correcto hasta 50 caracteres
+    )
     impuesto = 0
 
     estado = Faker(

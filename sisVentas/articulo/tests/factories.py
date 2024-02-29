@@ -23,9 +23,9 @@ class ArticuloFactory(DjangoModelFactory):
     """
 
     categoria = SubFactory(CategoriaFactory)
-    codigo = Faker("numerify", text="$$$")
+    codigo = "23435"  # TODO: buscar solucion para Faker correcto hasta 50 caracteres
     nombre = Faker("name_nonbinary")
-    stock = Faker("numerify", text="####")
+    stock = 5
     descripcion = Faker("paragraph", nb_sentences=1)
     imagen = ImageField(color="red")
     estado = Faker(

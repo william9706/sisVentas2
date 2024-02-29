@@ -12,6 +12,7 @@ staticfiles/
 *.DS_Store
 __pycache__
 
+sisVentas/media
 
 ### Project template
 .pytest_cache/

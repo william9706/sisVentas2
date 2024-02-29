@@ -17,7 +17,9 @@ class PerfilPersonaFactory(DjangoModelFactory):
     tipo_documento = Faker(
         "random_element", elements=[x[0] for x in TipoDocumento.choices]
     )
-    numero_docuento = Faker("numerify")
+    numero_docuento = (
+        "1048599685"  # TODO: buscar solucion para Faker correcto con 50 caracteres
+    )
     direccion = Faker("address")
     telefono = Faker("msisdn")
     email = Faker("email")

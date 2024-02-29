@@ -11,6 +11,11 @@ from sisVentas.core.models import PerfilPersona
 from sisVentas.core.tests.factories import PerfilPersonaFactory
 
 
+@pytest.fixture(autouse=True)
+def media_storage(settings, tmpdir):
+    settings.MEDIA_ROOT = tmpdir.strpath
+
+
 @pytest.fixture
 def categoria() -> Categoria:
     return CategoriaFactory()
