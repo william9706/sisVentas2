@@ -13,7 +13,7 @@ from sisVentas.compra_venta.forms import (
     detalleIngresosFormSet,
     formset_helper,
 )
-from sisVentas.compra_venta.models import DetalleDeIngreso, Ingreso
+from sisVentas.compra_venta.models import DetalleDeIngreso, Ingreso, Venta
 
 
 class DetailIngreso(DetailView):
@@ -90,3 +90,34 @@ class IngresoDeleteView(SuccessMessageMixin, DeleteView):
     template_name = "compra_venta/ingreso/eliminar_ingreso.html"
     success_url = reverse_lazy("compra_venta:listar_ingresos")
     success_message = _("Se ha eliminado el ingreso correctamente.")
+
+
+class VentaListView(ListView):
+    """
+    Vista para listar Ventas.
+    """
+
+    model = Venta
+    template_name = "compra_venta/venta/ventas.html"
+    context_object_name = "ventas"
+    paginate_by = 15
+
+
+class DetailVenta(DetailView):
+    """
+    Vistar para ver una venta especifica.
+    """
+
+    model = Venta
+    slug_field: str = "pk"
+
+
+class VentaDeleteView(SuccessMessageMixin, DeleteView):
+    """
+    Vista para eliminar Venta.
+    """
+
+    model = Ingreso
+    template_name = "compra_venta/venta/eliminar_venta.html"
+    success_url = reverse_lazy("compra_venta:listar_ventas")
+    success_message = _("Se ha eliminado la venta correctamente.")
