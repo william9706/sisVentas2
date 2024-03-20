@@ -13,3 +13,9 @@ class PerfilPersonaManager(models.Manager):
         Metodo para obtener los proveedores.
         """
         return super().get_queryset().filter(tipo_persona=TipoPerfilPersona.PROVEEDOR)
+
+    def obtener_clientes(self):
+        """
+        Metodo para obtener los clientes.
+        """
+        return super().get_queryset().filter(tipo_persona=TipoPerfilPersona.CLIENTE)

@@ -5,7 +5,12 @@ from django.contrib.messages import get_messages
 from django.test import Client
 from django.urls import reverse
 
-from sisVentas.compra_venta.models import DetalleDeIngreso, Ingreso
+from sisVentas.compra_venta.models import (
+    DetalleDeIngreso,
+    DetalleDeVenta,
+    Ingreso,
+    Venta,
+)
 from sisVentas.utils.constantes import TipoComprobante
 
 pytestmark = pytest.mark.django_db
@@ -86,3 +91,78 @@ def test_crear_ingreso(ingreso: Ingreso, detalle_ingreso: DetalleDeIngreso):
     assert ingreso.tipo_comprobante == TipoComprobante.BOLETA
     assert ingreso.numero_comprobante == "1232335"
     assert ingreso.detalledeingreso_set.all().exists()
+
+
+def test_venta_list():
+    """
+    Test para probar que la vista VentaListView.
+    """
+    client = Client()
+    response = client.get(reverse("compra_venta:listar_ventas"))
+    assert response.status_code == 200
+
+
+def test_detalle_venta(venta: Venta):
+    """
+    Prueba para verificar que la vista DetailVenta funcione correctamente.
+    """
+    client = Client()
+    response = client.get(
+        reverse("compra_venta:detalle_venta", kwargs={"pk": venta.pk})
+    )
+    assert response.status_code == 200
+
+
+def test_eliminar_venta(venta: Venta):
+    """
+    Prueba para eliminar una venta.
+    """
+    client = Client()
+    response = client.post(
+        reverse("compra_venta:eliminar_venta", kwargs={"pk": venta.pk})
+    )
+    message = list(get_messages(response.wsgi_request))
+    assert response.status_code == 302
+    assert str(message[0]) == "Se ha eliminado la venta correctamente."
+    assert not Venta.objects.filter(id=venta.pk).exists()
+    assert response.url == reverse("compra_venta:listar_ventas")
+
+
+def test_crear_venta(venta: Venta, detalle_venta: DetalleDeVenta):
+    """
+    Test para verificar el correcto funcionamiento
+    de la vista crear_venta.
+    """
+    client = Client()
+    data = {
+        "perfil_persona": venta.perfil_persona.id,
+        "tipo_comprobante": TipoComprobante.BOLETA,
+        "serie_comprobante": "1235233",
+        "numero_comprobante": "1232335",
+        "form-TOTAL_FORMS": 2,
+        "form-INITIAL_FORMS": 0,
+        "detalle_ventas": json.dumps(
+            [
+                {
+                    "Articulos": detalle_venta.articulos.id,
+                    "Cantidad": 2,
+                    "PrecioVenta": detalle_venta.precio_venta,
+                    "Descuento": detalle_venta.descuento,
+                },
+                {
+                    "Articulos": detalle_venta.articulos.id,
+                    "Cantidad": 3,
+                    "PrecioVenta": detalle_venta.precio_venta,
+                    "Descuento": detalle_venta.descuento,
+                },
+            ]
+        ),
+    }
+    response = client.post(reverse("compra_venta:crear_ventas"), data=data)
+    venta = Venta.objects.get(serie_comprobante="1235233")
+    message = list(get_messages(response.wsgi_request))
+    assert response.status_code == 302
+    assert str(message[0]) == "La venta se ha creado correctamente."
+    assert venta.tipo_comprobante == TipoComprobante.BOLETA
+    assert venta.numero_comprobante == "1232335"
+    assert venta.detalledeventa_set.all().exists()

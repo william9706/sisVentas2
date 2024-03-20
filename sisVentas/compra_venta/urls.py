@@ -2,9 +2,13 @@ from django.urls import path
 
 from sisVentas.compra_venta.views import (
     DetailIngreso,
+    DetailVenta,
     IngresoDeleteView,
     IngresoListView,
+    VentaDeleteView,
+    VentaListView,
     crear_ingreso,
+    crear_venta,
 )
 
 app_name = "compra_venta"
@@ -17,4 +21,12 @@ urlpatterns = [
         name="eliminar_ingreso",
     ),
     path("ingreso/<str:pk>/", view=DetailIngreso.as_view(), name="detalle_ingreso"),
+    path("venta/<str:pk>/", view=DetailVenta.as_view(), name="detalle_venta"),
+    path("listar-ventas/", view=VentaListView.as_view(), name="listar_ventas"),
+    path("crear-ventas/", view=crear_venta, name="crear_ventas"),
+    path(
+        "eliminar-venta/<str:pk>/",
+        view=VentaDeleteView.as_view(),
+        name="eliminar_venta",
+    ),
 ]

@@ -10,10 +10,18 @@ from django.views.generic import DeleteView, DetailView, ListView
 
 from sisVentas.compra_venta.forms import (
     IngresoForm,
+    VentaForm,
     detalleIngresosFormSet,
+    detalleVentasFormSet,
     formset_helper,
+    formset_helper_venta,
 )
-from sisVentas.compra_venta.models import DetalleDeIngreso, Ingreso
+from sisVentas.compra_venta.models import (
+    DetalleDeIngreso,
+    DetalleDeVenta,
+    Ingreso,
+    Venta,
+)
 
 
 class DetailIngreso(DetailView):
@@ -90,3 +98,79 @@ class IngresoDeleteView(SuccessMessageMixin, DeleteView):
     template_name = "compra_venta/ingreso/eliminar_ingreso.html"
     success_url = reverse_lazy("compra_venta:listar_ingresos")
     success_message = _("Se ha eliminado el ingreso correctamente.")
+
+
+class VentaListView(ListView):
+    """
+    Vista para listar Ventas.
+    """
+
+    model = Venta
+    template_name = "compra_venta/venta/ventas.html"
+    context_object_name = "ventas"
+    paginate_by = 15
+
+
+class DetailVenta(DetailView):
+    """
+    Vistar para ver una venta especifica.
+    """
+
+    model = Venta
+    slug_field: str = "pk"
+
+
+class VentaDeleteView(SuccessMessageMixin, DeleteView):
+    """
+    Vista para eliminar Venta.
+    """
+
+    model = Venta
+    template_name = "compra_venta/venta/eliminar_venta.html"
+    success_url = reverse_lazy("compra_venta:listar_ventas")
+    success_message = _("Se ha eliminado la venta correctamente.")
+
+
+def crear_venta(request):
+    """
+    Vista basada en funciones para gestionar el proceso de creación de un ingreso.
+    """
+    venta_form = VentaForm(request.POST or None)
+    detalle_venta = {}
+    if "detalle_ventas" in request.POST:
+        detalle_ventas = json.loads(request.POST["detalle_ventas"])
+        detalle_venta["form-TOTAL_FORMS"] = len(detalle_ventas)
+        detalle_venta["form-INITIAL_FORMS"] = 0
+        i = 0
+        for item in detalle_ventas:
+            detalle_venta[f"form-{i}-articulos"] = item["Articulos"]
+            detalle_venta[f"form-{i}-cantidad"] = item["Cantidad"]
+            detalle_venta[f"form-{i}-precio_venta"] = item["PrecioVenta"]
+            detalle_venta[f"form-{i}-descuento"] = item["Descuento"]
+            i += 1
+
+    detalle_venta_formset = detalleVentasFormSet(data=detalle_venta)
+
+    if all([venta_form.is_valid(), detalle_venta_formset.is_valid()]):
+        venta_fk = venta_form.save()
+        detalle_venta_formset.save(commit=False)
+
+        for form in detalle_venta_formset:
+            form.instance.ventas = venta_fk
+
+        detalle_venta_formset.save()
+        messages.info(request, message=_("La venta se ha creado correctamente."))
+        return HttpResponseRedirect(reverse("compra_venta:listar_ventas"))
+
+    context = {
+        "venta_form": venta_form,
+        "formset_detalle_ventas": detalleVentasFormSet(
+            queryset=DetalleDeVenta.objects.none()
+        ),
+        "formset_helper_venta": formset_helper_venta(),
+    }
+    return render(
+        request,
+        "compra_venta/venta/crear_venta.html",
+        context=context,
+    )

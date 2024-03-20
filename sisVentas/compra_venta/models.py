@@ -167,7 +167,7 @@ class Venta(TimeStampedModel):
         through="DetalleDeVenta",
     )
 
-    tipo_comprobante = models.CharField(
+    tipo_comprobante = models.SmallIntegerField(
         _("Tipo de compronbante"),
         choices=TipoComprobante.choices,
         default=TipoComprobante.BOLETA,
@@ -184,13 +184,16 @@ class Venta(TimeStampedModel):
         null=False,
         blank=False,
     )
-    impuesto = models.FloatField(
+    impuesto = models.DecimalField(
         _("Impuesto de la venta"),
         null=False,
-        blank=False,
+        blank=True,
+        decimal_places=2,
+        max_digits=12,
+        default=0,
     )
-    descuento = models.DecimalField(
-        _("Descuento de la venta"),
+    total_venta = models.DecimalField(
+        _("Total de la venta"),
         null=True,
         blank=True,
         decimal_places=2,
@@ -234,8 +237,8 @@ class DetalleDeVenta(models.Model):
         null=False,
         blank=True,
     )
-    precio_compra = models.DecimalField(
-        _("Precio de compra"),
+    precio_venta = models.DecimalField(
+        _("Precio de venta"),
         null=False,
         blank=True,
         decimal_places=2,
@@ -250,6 +253,9 @@ class DetalleDeVenta(models.Model):
         max_digits=12,
         default=0,
     )
+
+    def __str__(self) -> str:
+        return f"{self.articulos.nombre} - {self.ventas.numero_comprobante}"
 
     class Meta:
         verbose_name = "Detalle de Venta"
