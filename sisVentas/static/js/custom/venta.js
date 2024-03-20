@@ -59,7 +59,7 @@ function eliminar(index){
 }
 
 let arrServicio = new Array();
-arrServicio = ['', 'Articulos', 'Cantidad', 'PrecioVenta'];
+arrServicio = ['', 'Articulos', 'Cantidad', 'PrecioVenta', 'Descuento'];
 
 $('#formulario-ingreso').submit(function (e) {
     validarJson('detalles', 'selected', arrServicio);

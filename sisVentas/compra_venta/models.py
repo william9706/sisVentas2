@@ -184,10 +184,13 @@ class Venta(TimeStampedModel):
         null=False,
         blank=False,
     )
-    impuesto = models.FloatField(
+    impuesto = models.DecimalField(
         _("Impuesto de la venta"),
         null=False,
-        blank=False,
+        blank=True,
+        decimal_places=2,
+        max_digits=12,
+        default=0,
     )
     total_venta = models.DecimalField(
         _("Total de la venta"),

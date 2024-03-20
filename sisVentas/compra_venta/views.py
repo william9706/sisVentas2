@@ -125,7 +125,7 @@ class VentaDeleteView(SuccessMessageMixin, DeleteView):
     Vista para eliminar Venta.
     """
 
-    model = Ingreso
+    model = Venta
     template_name = "compra_venta/venta/eliminar_venta.html"
     success_url = reverse_lazy("compra_venta:listar_ventas")
     success_message = _("Se ha eliminado la venta correctamente.")
@@ -146,16 +146,17 @@ def crear_venta(request):
             detalle_venta[f"form-{i}-articulos"] = item["Articulos"]
             detalle_venta[f"form-{i}-cantidad"] = item["Cantidad"]
             detalle_venta[f"form-{i}-precio_venta"] = item["PrecioVenta"]
+            detalle_venta[f"form-{i}-descuento"] = item["Descuento"]
             i += 1
 
     detalle_venta_formset = detalleVentasFormSet(data=detalle_venta)
 
     if all([venta_form.is_valid(), detalle_venta_formset.is_valid()]):
-        ingreso_fk = venta_form.save()
+        venta_fk = venta_form.save()
         detalle_venta_formset.save(commit=False)
 
         for form in detalle_venta_formset:
-            form.instance.ingresos = ingreso_fk
+            form.instance.ventas = venta_fk
 
         detalle_venta_formset.save()
         messages.info(request, message=_("La venta se ha creado correctamente."))

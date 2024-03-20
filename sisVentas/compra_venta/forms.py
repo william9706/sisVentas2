@@ -165,7 +165,7 @@ class VentaForm(forms.ModelForm):
 
     class Meta:
         model = Venta
-        fields = "__all__"
+        exclude = ["articulos", "impuesto", "estado"]
 
 
 class DetalleDeVentaForm(forms.ModelForm):
@@ -175,7 +175,7 @@ class DetalleDeVentaForm(forms.ModelForm):
 
     class Meta:
         model = DetalleDeVenta
-        exclude = ["ingresos"]
+        exclude = ["ventas"]
 
 
 detalleVentasFormSet = modelformset_factory(
