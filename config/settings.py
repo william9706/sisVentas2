@@ -46,6 +46,10 @@ INSTALLED_APPS = [
     # third party apps
     "crispy_forms",
     "crispy_bootstrap5",
+    "django.contrib.sites",  # Necesario para Allauth
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
 ]
 
 MIDDLEWARE = [
@@ -56,6 +60,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -145,3 +150,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+# django-allauth
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+# Django Admin URL.
+ADMIN_URL = "admin/"
+SITE_ID = 1
