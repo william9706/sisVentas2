@@ -160,3 +160,4 @@ AUTHENTICATION_BACKENDS = [
 # Django Admin URL.
 ADMIN_URL = "admin/"
 SITE_ID = 1
+LOGIN_REDIRECT_URL = "persona:listar_personas"
