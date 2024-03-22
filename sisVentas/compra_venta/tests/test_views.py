@@ -1,6 +1,7 @@
 import json
 
 import pytest
+from django.contrib.auth import get_user_model
 from django.contrib.messages import get_messages
 from django.test import Client
 from django.urls import reverse
@@ -14,35 +15,39 @@ from sisVentas.compra_venta.models import (
 from sisVentas.utils.constantes import TipoComprobante
 
 pytestmark = pytest.mark.django_db
+User = get_user_model()
 
 
-def test_detalle_ingreso(ingreso: Ingreso):
+def test_detalle_ingreso(ingreso: Ingreso, user: User):  # type: ignore
     """
     Test para verificar que la vista DetailIngreso
     funcione correctamente.
     """
     client = Client()
+    client.force_login(user)
     response = client.get(
         reverse("compra_venta:detalle_ingreso", kwargs={"pk": ingreso.pk})
     )
     assert response.status_code == 200
 
 
-def test_ingreso_list():
+def test_ingreso_list(user: User):  # type: ignore
     """
     Test para verificar que la vista IngresoListView
     funcione correctamente.
     """
     client = Client()
+    client.force_login(user)
     response = client.get(reverse("compra_venta:listar_ingresos"))
     assert response.status_code == 200
 
 
-def test_eliminar_ingreso(ingreso: Ingreso):
+def test_eliminar_ingreso(ingreso: Ingreso, user: User):  # type: ignore
     """
     Test para verificar que se puede eleminar un ingreso.
     """
     client = Client()
+    client.force_login(user)
     response = client.post(
         reverse("compra_venta:eliminar_ingreso", kwargs={"pk": ingreso.pk})
     )
@@ -53,12 +58,13 @@ def test_eliminar_ingreso(ingreso: Ingreso):
     assert str(message[0]) == "Se ha eliminado el ingreso correctamente."
 
 
-def test_crear_ingreso(ingreso: Ingreso, detalle_ingreso: DetalleDeIngreso):
+def test_crear_ingreso(ingreso: Ingreso, detalle_ingreso: DetalleDeIngreso, user: User):  # type: ignore
     """
     Test para verificar el correcto funcionamiento
     de la vista crear_ingreso.
     """
     client = Client()
+    client.force_login(user)
     data = {
         "perfil_persona": ingreso.perfil_persona.id,
         "tipo_comprobante": TipoComprobante.BOLETA,
@@ -93,31 +99,34 @@ def test_crear_ingreso(ingreso: Ingreso, detalle_ingreso: DetalleDeIngreso):
     assert ingreso.detalledeingreso_set.all().exists()
 
 
-def test_venta_list():
+def test_venta_list(user: User):  # type: ignore
     """
     Test para probar que la vista VentaListView.
     """
     client = Client()
+    client.force_login(user)
     response = client.get(reverse("compra_venta:listar_ventas"))
     assert response.status_code == 200
 
 
-def test_detalle_venta(venta: Venta):
+def test_detalle_venta(venta: Venta, user: User):  # type: ignore
     """
     Prueba para verificar que la vista DetailVenta funcione correctamente.
     """
     client = Client()
+    client.force_login(user)
     response = client.get(
         reverse("compra_venta:detalle_venta", kwargs={"pk": venta.pk})
     )
     assert response.status_code == 200
 
 
-def test_eliminar_venta(venta: Venta):
+def test_eliminar_venta(venta: Venta, user: User):  # type: ignore
     """
     Prueba para eliminar una venta.
     """
     client = Client()
+    client.force_login(user)
     response = client.post(
         reverse("compra_venta:eliminar_venta", kwargs={"pk": venta.pk})
     )
@@ -128,12 +137,13 @@ def test_eliminar_venta(venta: Venta):
     assert response.url == reverse("compra_venta:listar_ventas")
 
 
-def test_crear_venta(venta: Venta, detalle_venta: DetalleDeVenta):
+def test_crear_venta(venta: Venta, detalle_venta: DetalleDeVenta, user: User):  # type: ignore
     """
     Test para verificar el correcto funcionamiento
     de la vista crear_venta.
     """
     client = Client()
+    client.force_login(user)
     data = {
         "perfil_persona": venta.perfil_persona.id,
         "tipo_comprobante": TipoComprobante.BOLETA,

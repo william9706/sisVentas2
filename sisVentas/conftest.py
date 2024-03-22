@@ -15,7 +15,7 @@ from sisVentas.compra_venta.tests.factories import (
     VentaFactory,
 )
 from sisVentas.core.models import PerfilPersona
-from sisVentas.core.tests.factories import PerfilPersonaFactory
+from sisVentas.core.tests.factories import PerfilPersonaFactory, UserFactory
 
 
 @pytest.fixture(autouse=True)
@@ -56,3 +56,8 @@ def venta() -> Venta:
 @pytest.fixture
 def detalle_venta() -> DetalleDeVenta:
     return DetalleDeVentaFactory()
+
+
+@pytest.fixture
+def user():
+    return UserFactory()

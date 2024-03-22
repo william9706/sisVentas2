@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -7,14 +8,14 @@ from sisVentas.core.forms import PerfilPersonaForm
 from sisVentas.core.models import PerfilPersona
 
 
-class PerfilPersonaListView(ListView):
+class PerfilPersonaListView(LoginRequiredMixin, ListView):
     model = PerfilPersona
     context_object_name = "personas"
     template_name = "persona/listar_personas.html"
     paginate_by = 15
 
 
-class PerfilPersonaCreateView(SuccessMessageMixin, CreateView):
+class PerfilPersonaCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     """
     Vista para crear una persona.
     """
@@ -26,7 +27,7 @@ class PerfilPersonaCreateView(SuccessMessageMixin, CreateView):
     success_message = _("Persona creada exitosamente.")
 
 
-class PerfilPersonaUpdateview(SuccessMessageMixin, UpdateView):
+class PerfilPersonaUpdateview(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     """
     Vista para actualizar persona
     """
@@ -38,7 +39,7 @@ class PerfilPersonaUpdateview(SuccessMessageMixin, UpdateView):
     success_message = _("Persona actualizada correctamente.")
 
 
-class PerfilPersonaDeleteview(SuccessMessageMixin, DeleteView):
+class PerfilPersonaDeleteview(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     """
     Vista para eliminar una persona.
     """

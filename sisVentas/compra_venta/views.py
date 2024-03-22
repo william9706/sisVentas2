@@ -1,6 +1,8 @@
 import json
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -24,7 +26,7 @@ from sisVentas.compra_venta.models import (
 )
 
 
-class DetailIngreso(DetailView):
+class DetailIngreso(LoginRequiredMixin, DetailView):
     """
     Vistar para ver un ingreso especifico.
     """
@@ -33,7 +35,7 @@ class DetailIngreso(DetailView):
     slug_field: str = "pk"
 
 
-class IngresoListView(ListView):
+class IngresoListView(LoginRequiredMixin, ListView):
     """
     Vista para listar ingresos.
     """
@@ -44,6 +46,7 @@ class IngresoListView(ListView):
     paginate_by = 15
 
 
+@login_required
 def crear_ingreso(request):
     """
     Vista basada en funciones para gestionar el proceso de creación de un ingreso.
@@ -89,7 +92,7 @@ def crear_ingreso(request):
     )
 
 
-class IngresoDeleteView(SuccessMessageMixin, DeleteView):
+class IngresoDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     """
     Vista para eliminar Ingreso.
     """
@@ -100,7 +103,7 @@ class IngresoDeleteView(SuccessMessageMixin, DeleteView):
     success_message = _("Se ha eliminado el ingreso correctamente.")
 
 
-class VentaListView(ListView):
+class VentaListView(LoginRequiredMixin, ListView):
     """
     Vista para listar Ventas.
     """
@@ -111,7 +114,7 @@ class VentaListView(ListView):
     paginate_by = 15
 
 
-class DetailVenta(DetailView):
+class DetailVenta(LoginRequiredMixin, DetailView):
     """
     Vistar para ver una venta especifica.
     """
@@ -120,7 +123,7 @@ class DetailVenta(DetailView):
     slug_field: str = "pk"
 
 
-class VentaDeleteView(SuccessMessageMixin, DeleteView):
+class VentaDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     """
     Vista para eliminar Venta.
     """
@@ -131,6 +134,7 @@ class VentaDeleteView(SuccessMessageMixin, DeleteView):
     success_message = _("Se ha eliminado la venta correctamente.")
 
 
+@login_required
 def crear_venta(request):
     """
     Vista basada en funciones para gestionar el proceso de creación de un ingreso.

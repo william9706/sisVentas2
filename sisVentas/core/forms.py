@@ -15,17 +15,20 @@ class PerfilPersonaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = "POST"
+        self.helper.form_id = "formulario-persona"
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(
                 _("Nueva Persona"),
                 "tipo_persona",
-                Field("nombre_persona", css_class="input-group input-group-static"),
+                Field("nombre_persona", wrapper_class="input-group input-group-static"),
                 "tipo_persona",
-                Field("numero_docuento", css_class="input-group input-group-static"),
-                Field("direccion", css_class="input-group input-group-static"),
-                Field("telefono", css_class="input-group input-group-static"),
-                Field("email", css_class="input-group input-group-static"),
+                Field(
+                    "numero_docuento", wrapper_class="input-group input-group-static"
+                ),
+                Field("direccion", wrapper_class="input-group input-group-static"),
+                Field("telefono", wrapper_class="input-group input-group-static"),
+                Field("email", wrapper_class="input-group input-group-static"),
             )
         )
 
