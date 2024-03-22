@@ -1,11 +1,20 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
 from sisVentas.core.forms import PerfilPersonaForm
 from sisVentas.core.models import PerfilPersona
+
+User = get_user_model()
 
 
 class PerfilPersonaListView(LoginRequiredMixin, ListView):
@@ -48,3 +57,13 @@ class PerfilPersonaDeleteview(LoginRequiredMixin, SuccessMessageMixin, DeleteVie
     success_message = _("Persona eliminada correctamente.")
     template_name = "persona/eliminar_persona.html"
     success_url = reverse_lazy("persona:listar_personas")
+
+
+class UserDetailView(LoginRequiredMixin, DetailView):
+    """
+    Vista para listar un perfil específico.
+    """
+
+    model = User
+    slug_field = "pk"
+    context_object_name = "user"

@@ -5,6 +5,7 @@ from sisVentas.core.views import (
     PerfilPersonaDeleteview,
     PerfilPersonaListView,
     PerfilPersonaUpdateview,
+    UserDetailView,
 )
 
 app_name = "persona"
@@ -21,4 +22,5 @@ urlpatterns = [
         PerfilPersonaDeleteview.as_view(),
         name="eliminar_persona",
     ),
+    path("profile/<str:pk>/", UserDetailView.as_view(), name="profile"),
 ]
