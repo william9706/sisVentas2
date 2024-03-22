@@ -14,7 +14,7 @@
             <div class="col-lg-8 col-md-10 col-12 mx-auto">
                 <div class="card z-index-0 fadeIn3 fadeInBottom px-1 py-4">
                     <div class="card-body">
-                        {{ form|crispy }}
+                        {% crispy form %}
                         <div class="buttonHolder text-end is-filled">
                             <button class="btn btn-primary" type="submit">{% translate "Guardar" %}</button>
                             <a href="javascript:history.go(-1)" class="btn btn-primary btn btn-dark" type="reset">{% translate "Cancelar" %}</a>

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -14,7 +15,7 @@ def vista_index(request):
     return render(request, "main.html")
 
 
-class ListaArticulos(ListView):
+class ListaArticulos(LoginRequiredMixin, ListView):
     """
     Vista para listar articulos.
     """
@@ -25,7 +26,7 @@ class ListaArticulos(ListView):
     paginate_by = 15
 
 
-class ArticuloCreateView(SuccessMessageMixin, CreateView):
+class ArticuloCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     """
     Vista para crear articulo.
     """
@@ -37,7 +38,7 @@ class ArticuloCreateView(SuccessMessageMixin, CreateView):
     success_url = reverse_lazy("articulo:listar_articulos")
 
 
-class ArticuloDeleteView(SuccessMessageMixin, DeleteView):
+class ArticuloDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     """
     Clase para eliminar un Articulo.
     """
@@ -48,7 +49,7 @@ class ArticuloDeleteView(SuccessMessageMixin, DeleteView):
     success_message = _("Se ha eliminado el articulo correctamente.")
 
 
-class ArticuloUpdateView(SuccessMessageMixin, UpdateView):
+class ArticuloUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     """
     Vista para actualizar articulo.
     """
