@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div class="container my-5 justify-content-center">
+    <div class="d-flex align-items-center">
+      <div class="col-lg-8 col-md-8 col-12 mx-auto">
+        <div class="card z-index-0 fadeIn3 fadeInBottom px-1 py-4">
+          <div class="card-body text-center">
+            <div class="mb-4">
+              <i class="feather icon-lock auth-icon"></i>
+            </div>
+            <h3 class="mb-4">{% translate "Cerrar sesión" %}</h3>
+            <p>{% translate '¿Está seguro que desea cerrar sesión?' %}</p>
+            <form method="post" action="{% url 'account_logout' %}">
+              {% csrf_token %}
+              {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+              {% endif %}
+              <button class="btn bg-gradient-primary" type="submit">{% translate 'Cerrar sesión' %}</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
