@@ -63,6 +63,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     """
     Vista para listar un perfil específico.
     """
+
     model = User
     slug_field = "pk"
     context_object_name = "user"
