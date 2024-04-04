@@ -22,7 +22,6 @@ class PerfilPersonaForm(forms.ModelForm):
                 _("Nueva Persona"),
                 "tipo_persona",
                 Field("nombre_persona", wrapper_class="input-group input-group-static"),
-                "tipo_persona",
                 Field(
                     "numero_docuento", wrapper_class="input-group input-group-static"
                 ),
