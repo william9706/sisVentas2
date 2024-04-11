@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "sisVentas.core",
     "sisVentas.compra_venta",
     # third party apps
+    "rest_framework",
     "crispy_forms",
     "crispy_bootstrap5",
     "django.contrib.sites",  # Necesario para Allauth
@@ -117,6 +118,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# REST_FRAMEWORK = {
+#     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
