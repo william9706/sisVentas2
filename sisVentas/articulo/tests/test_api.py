@@ -11,16 +11,22 @@ pytestmark = pytest.mark.django_db
 User = get_user_model()
 
 
-def test_articulo_get_method(user: User):  # type: ignore
+def test_articulo_get_method(user: User, articulo: Articulo):  # type: ignore
     """
     Test para probar que el endpoint ArticulosViewSet
     puede listar articulos
     """
     client = APIClient()
+    articulo.nombre = "Articulo 1"
+    articulo.descripcion = "Descripcion 1"
+    articulo.stock = 10
+    articulo.save()
     client.force_login(user)
     response = client.get(reverse("api_articulo:articulo-list"))
-
     assert response.status_code == status.HTTP_200_OK
+    assert response.json()[0]["nombre"] == "Articulo 1"
+    assert response.json()[0]["descripcion"] == "Descripcion 1"
+    assert response.json()[0]["stock"] == 10
 
 
 def test_articulo_post_method(user: User, articulo: Articulo):  # type: ignore
@@ -43,3 +49,7 @@ def test_articulo_post_method(user: User, articulo: Articulo):  # type: ignore
         reverse("api_articulo:articulo-list"), data=data, format="json"
     )
     assert response.status_code == status.HTTP_201_CREATED
+    assert response.json()["nombre"] == "Nombre Bonito"
+    assert response.json()["descripcion"] == "Una descripcion"
+    assert response.json()["stock"] == 10
+    assert response.json()["codigo"] == "123456"
