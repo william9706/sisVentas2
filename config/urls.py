@@ -9,4 +9,6 @@ urlpatterns = [
     path("core/", include("sisVentas.core.urls")),
     path("compra-venta/", include("sisVentas.compra_venta.urls")),
     path("accounts/", include("allauth.urls")),
+    # apis
+    path("api/", include("config.api_router")),
 ]
